@@ -29,7 +29,7 @@ class Application_Model_Comment extends Dimagre_Model_Base
  
     public function getQuestionId()
     {
-        return $this->quesitonid;
+        return $this->questionid;
     }
     public function setText($var)
     {
@@ -55,6 +55,11 @@ class Application_Model_Comment extends Dimagre_Model_Base
     {
         return $this->created;
     }
+	public function setCreated($var)
+	{
+		$this->active = $var;
+		return $this;
+	}
 
     public function setActive($var)
     {

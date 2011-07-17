@@ -11,13 +11,12 @@ class Application_Model_QuestionMapper extends Dimagre_Model_BaseMapper
     public function save(Application_Model_Question $question)
     {
         $data = array(
-            'userid'   => $question->getUserId(),
+            'userid'   => Zend_Registry::get('userID'),
             'title' => $question->getTitle(),
             'text' => $question->getText(),
             'answer' => $question->getAnswer(),
             'flags' => $question->getFlags(),
-            'tag' => $question->getTag(),
-            'active' => $question->getActive()
+            'tagid' => $question->getTag()
         );
  		$this->commitRecord($question, $data);
     }

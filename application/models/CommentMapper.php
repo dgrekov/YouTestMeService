@@ -24,14 +24,15 @@ class Application_Model_CommentMapper extends Dimagre_Model_BaseMapper
     {
         $table = $this->getDbTable();
         $select = $table->select();
-		$select->where('questionid = ?', $questionid);	
+		$select->where('questionid = ?', $questionid)
+			   ->order('created DESC');	
         $resultSet = $table->fetchAll($select);
         return $this->_assembleResult($resultSet);
     }
 	private function _assembleResult($resultSet){
 		$entries   = array();
         foreach ($resultSet as $row) {
-            $entry = new Application_Model_Question();
+            $entry = new Application_Model_Comment();
             $entry->setId($row->id)
                   ->setUserId($row->userid)
                   ->setQuestionId($row->questionid)

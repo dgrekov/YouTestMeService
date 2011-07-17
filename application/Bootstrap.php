@@ -17,5 +17,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $restRoute = new Zend_Rest_Route($frontController);
         $frontController->getRouter()->addRoute('default', $restRoute);
 	} 
+	
+	protected function _initLogger() {
+		$writer = new Zend_Log_Writer_Stream('C:\Program Files\Zend\Apache2\logs\output.log');
+		$format = '%timestamp% %priorityName%: %message%' . PHP_EOL;
+		$formatter = new Zend_Log_Formatter_Simple($format);
+		$writer->setFormatter($formatter);
+		$logger = new Zend_Log($writer);
+		$logger->setTimestampFormat("d-M-Y H:i:s");
+		Zend_Registry::set('logger', $logger);
+	}
 }
 

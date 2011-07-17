@@ -4,6 +4,7 @@ class Dimagre_Rest_Controller extends Zend_Rest_Controller
 {
 	protected $_objectMapper;
 	protected $_object;
+	protected $_logger;
 		/*
 	public function preDispatch(Zend_Controller_Request_Abstract $request)
     {
@@ -26,6 +27,8 @@ class Dimagre_Rest_Controller extends Zend_Rest_Controller
 		*/
 	public function init()
     {
+        $this->_logger = Zend_Registry::get('logger');	
+			
         $userMapper = new Application_Model_UserMapper();
 		$user = new Application_Model_User();
 		
