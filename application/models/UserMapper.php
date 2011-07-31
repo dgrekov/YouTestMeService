@@ -31,6 +31,7 @@ class Application_Model_UserMapper extends Dimagre_Model_BaseMapper
         if (0 == count($result)) {
             $user->setDeviceId($id);
 			$this->save($user);
+			$this->getByDeviceId($id, $user);
         }else{
 	        $row = $result;
 	        $user->setId($row->id)
