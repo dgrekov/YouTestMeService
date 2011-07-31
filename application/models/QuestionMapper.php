@@ -16,8 +16,23 @@ class Application_Model_QuestionMapper extends Dimagre_Model_BaseMapper
 		$question->setFlags($flags);
 		$this->save($question);
     }
-    public function mark($id){}
-    public function unmark($id){}
+    public function mark($id){
+    	$this->setDbTable('Application_Model_DbTable_Marked');	
+        $table = $this->getDbTable();
+        $this->unmark($id);
+		$data = array(
+			'userid' => Zend_Registry::get('userID'),
+			'questionid' => $id
+		);
+		$table->insert($data);
+    }
+    public function unmark($id){
+    	$this->setDbTable('Application_Model_DbTable_Marked');	
+        $table = $this->getDbTable();
+		$where = $table->getAdapter()->quoteInto('userid = ? ', Zend_Registry::get('userID'));
+		$where .= $table->getAdapter()->quoteInto('AND questionid = ?', $id);
+        $select = $table->delete($where);
+    }
     public function save(Application_Model_Question $question)
     {
         $data = array(

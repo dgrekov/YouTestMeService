@@ -52,13 +52,13 @@ class QuestionController extends Dimagre_Rest_Controller
 	public function putAction()
     {
     	$params = $this->getRequest()->getParams();	
-    	if($params['flag'] == 1){
+    	if(isset($params['flag'])){
     		$this->_objectMapper->flag($params['id']);
     	}	
-		else if($params['mark'] == 1){
+		else if(isset($params['mark'])){
     		$this->_objectMapper->mark($params['id']);
     	}	
-		else if($params['unmark'] == 1){
+		else if(isset($params['unmark'])){
     		$this->_objectMapper->unmark($params['id']);
     	}
     	$this->getResponse()
