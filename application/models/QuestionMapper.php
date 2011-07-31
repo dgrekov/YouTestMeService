@@ -33,6 +33,16 @@ class Application_Model_QuestionMapper extends Dimagre_Model_BaseMapper
 		$where .= $table->getAdapter()->quoteInto('AND questionid = ?', $id);
         $select = $table->delete($where);
     }
+    public function isMarked($id){
+    	$this->setDbTable('Application_Model_DbTable_Marked');	
+        $table = $this->getDbTable();
+		$where = $table->getAdapter()->quoteInto('userid = ? ', Zend_Registry::get('userID'));
+		$where .= $table->getAdapter()->quoteInto('AND questionid = ?', $id);
+		$select = $table->select()
+		 				 ->where($where);
+        $result = $table->fetchAll($select);
+		return count($result)>0?true:false;
+    }
     public function save(Application_Model_Question $question)
     {
         $data = array(

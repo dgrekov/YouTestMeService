@@ -33,6 +33,7 @@ class QuestionController extends Dimagre_Rest_Controller
     	$id = $this->getRequest()->getParam('id');
 		$this->_objectMapper->find($id, $this->_object);
         $this->view->question = $this->_object;
+		$this->view->isMarked = $this->_objectMapper->isMarked($id);
     }
     
 	/*
