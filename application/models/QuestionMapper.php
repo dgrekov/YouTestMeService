@@ -8,6 +8,16 @@ class Application_Model_QuestionMapper extends Dimagre_Model_BaseMapper
 	     $this->setDbTable('Application_Model_DbTable_Question');
 	}
 	
+    public function flag($id){
+    	$question = new Application_Model_Question();
+		$this->find($id, $question);
+		$flags = $question->getFlags();
+		$flags == null?$flags = 1:$flags++;
+		$question->setFlags($flags);
+		$this->save($question);
+    }
+    public function mark($id){}
+    public function unmark($id){}
     public function save(Application_Model_Question $question)
     {
         $data = array(
@@ -34,15 +44,18 @@ class Application_Model_QuestionMapper extends Dimagre_Model_BaseMapper
                   ->setText($row->text)
 				  ->setAnswer($row->answer)
                   ->setFlags($row->flags)
-				  ->setTag($row->tag)
+				  ->setTag($row->tagid)
 				  ->setActive($row->active);
     }
  
     public function fetchAll()
     {
         $this->setDbTable('Application_Model_DbTable_FilteredQuestion');	
-        $resultSet = $this->getDbTable()->fetchAll();
-		$resultSet = $this->_cleanResultSet($resultSet);
+        $table = $this->getDbTable();
+        $select = $table->select();
+		$select->order('created DESC');	
+        $resultSet = $table->fetchAll($select);
+        $resultSet = $this->_cleanResultSet($resultSet);
         return $this->_assembleResult($resultSet);
     }
 	public function fetchMine()
@@ -50,7 +63,8 @@ class Application_Model_QuestionMapper extends Dimagre_Model_BaseMapper
         $this->setDbTable('Application_Model_DbTable_FilteredQuestion');	
         $table = $this->getDbTable();
         $select = $table->select();
-		$select->where('userid = ?', Zend_Registry::get('userID'));	
+		$select->where('userid = ?', Zend_Registry::get('userID'))
+			   ->order('created DESC');	
         $resultSet = $table->fetchAll($select);
         $resultSet = $this->_cleanResultSet($resultSet);
         return $this->_assembleResult($resultSet);
@@ -60,7 +74,8 @@ class Application_Model_QuestionMapper extends Dimagre_Model_BaseMapper
         $this->setDbTable('Application_Model_DbTable_MarkedQuestion');
         $table = $this->getDbTable();
         $select = $table->select()
-					 ->where('userid = ?', Zend_Registry::get('userID'));
+					 ->where('userid = ?', Zend_Registry::get('userID'))
+					 ->order('created DESC');
         $resultSet = $table->fetchAll($select);
         return $this->_assembleResult($resultSet);
     }

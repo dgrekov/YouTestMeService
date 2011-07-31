@@ -40,14 +40,29 @@ class QuestionController extends Dimagre_Rest_Controller
 	 */
     public function postAction()
     {
-    	$this->_logger->info(print_r($this->getRequest(),true));
     	$this->_object->title = $this->getRequest()->getParam('title');
     	$this->_object->text = $this->getRequest()->getParam('text');
     	$this->_object->answer = $this->getRequest()->getParam('answer');
 		$this->_object->tag = $this->getRequest()->getParam('tags');
 		$this->_objectMapper->save($this->_object);
-			
     	$this->getResponse()
              ->setHttpResponseCode(201);
+    }
+	
+	public function putAction()
+    {
+    	$params = $this->getRequest()->getParams();	
+    	if($params['flag'] == 1){
+    		$this->_objectMapper->flag($params['id']);
+    	}	
+		else if($params['mark'] == 1){
+    		$this->_objectMapper->mark($params['id']);
+    	}	
+		else if($params['unmark'] == 1){
+    		$this->_objectMapper->unmark($params['id']);
+    	}
+    	$this->getResponse()
+             ->setHttpResponseCode(201);
+			
     }
 }

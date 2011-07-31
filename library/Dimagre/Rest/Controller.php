@@ -40,6 +40,7 @@ class Dimagre_Rest_Controller extends Zend_Rest_Controller
 					  ->addActionContext('post', 'json')
 					  ->addActionContext('put', 'json')
 					  ->addActionContext('delete', 'json')
+					 // ->addActionContext('error', 'json')
 					  ->initContext('json');
 		$this->view->success = true;
 		$this->view->version = $config['api']['version'];
